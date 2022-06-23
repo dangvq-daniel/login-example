@@ -83,9 +83,10 @@ def register():
             verification = cursor.fetchone()
             if verification:
                 # Account doesnt exists and the form data is valid, now insert new account into accounts table
-              cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username, password, email,))
-              mysql.connection.commit()
-              msg = 'You have successfully registered!'
+                cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username, password, email,))
+                mysql.connection.commit()
+                msg = 'You have successfully registered!'
+                return redirect(url_for('login'))
             else:
                 msg = 'Invalid token'
     elif request.method == 'POST':
