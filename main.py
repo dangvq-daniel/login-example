@@ -1,21 +1,29 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
+import psycopg2 #pip install psycopg2
+import psycopg2.extras
 import re
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
 # Change this to your secret key (can be anything, it's for extra protection)
-app.secret_key = 'DanielD1!'
+app.secret_key = 'dueJuly'
 
 # Enter your database connection details below
-app.config['MYSQL_HOST'] = 'localhost'
+"""app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'Skraaq5904$'
-app.config['MYSQL_DB'] = 'pythonlogin'
+app.config['MYSQL_DB'] = 'pythonlogin'"""
+DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
+DB_NAME = "d9tmmg8f329u7q"
+DB_USER = "dgmngaedsbampl"
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
 
 # Intialize MySQL
-mysql = MySQL(app)
+#mysql = MySQL(app)
+connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
 # http://localhost:5000/pythonlogin/ - the following will be our login page, which will use both GET and POST requests
 @app.route('/', methods=['GET', 'POST'])
@@ -27,18 +35,22 @@ def login():
         username = request.form['username']
         password = request.form['password']
         # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         # Fetch one record and return result
         account = cursor.fetchone()
     # If account exists in accounts table in out database
         if account:
             # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
-            # Redirect to home page
-            return redirect(url_for('home'))
+            password_rs = account['password']
+            if check_password_hash(password_rs, password):
+                session['loggedin'] = True
+                session['id'] = account['id']
+                session['username'] = account['username']
+                # Redirect to home page
+                return redirect(url_for('home'))
+            else:
+                msg = 'Incorrect username/password!'
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
@@ -66,7 +78,7 @@ def register():
         email = request.form['email']
         token = request.form['token']
         # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         account = cursor.fetchone()
         # If account exists show error and validation checks
@@ -83,9 +95,9 @@ def register():
             verification = cursor.fetchone()
             if verification:
                 # Account doesnt exists and the form data is valid, now insert new account into accounts table
-                cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username, password, email,))
-                mysql.connection.commit()
-                msg = 'You have successfully registered!'
+                _hashed_password = generate_password_hash(password)
+                cursor.execute('INSERT INTO accounts (username, password, email) VALUES (%s, %s, %s)', (username, _hashed_password, email,))
+                connect.commit()
                 return redirect(url_for('login'))
             else:
                 msg = 'Invalid token'
@@ -112,7 +124,7 @@ def profile():
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE id = %s', (session['id'],))
         account = cursor.fetchone()
         # Show the profile page with account info
