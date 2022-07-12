@@ -197,9 +197,9 @@ def add_userrequest():
         emailofticket = request.form['emailofticket']
         userrequest=request.form['userrequest']
         status=request.form['status']
-        cursor.execute("INSERT INTO request (userofticket, dateofticket, requesttype, tittle, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
+        cursor.execute("INSERT INTO request (userofticket, dateofticket, requesttype, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
         connect.commit()
-        return redirect(url_for('Adminindex'))
+        return redirect(url_for('adminindex'))
 @app.route('/edit/<id>',methods=['GET','POST'])
 def edit_userrequest(id):
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
