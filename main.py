@@ -130,15 +130,14 @@ def profile():
 @app.route('/pythonlogin/userrequest', methods=['GET','POST'])
 def userrequest():
     # Check if user is loggedin
+    msg = ''
     if 'loggedin' in session:
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE username = %s',(session['username'],) )
         account = cursor.fetchone()
         userofticket=account['username']
-        id = account['id']
         status = "New"
         # Output message if something goes wrong...
-        msg = ''
         #User is loggedin show them the userrequest page
         if request.method == 'POST' and 'dateofticket'in request.form and 'requesttype' in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
             dateofticket=request.form['dateofticket']
@@ -151,15 +150,15 @@ def userrequest():
             userrequest=request.form['userrequest']
         # Insert new request into request table
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            #cursor.execute('INSERT INTO request (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
+            cursor.execute('INSERT INTO request (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
-            msg = dateofticket
+            msg = 'Request submitted'
         else:
             msg = 'Incorrect input'
         # User is loggedin show them the userrequest page
     else:
         return redirect(url_for('login'))
-    return redirect(url_for('userrequest', msg = msg))
+    return render_template('userrequest.html',msg = msg)
 #http://localhost:5000/pythinlogin/historyuserrequest
 @app.route('/pythonlogin/historyuserrequest')
 def historyuserrequest():
@@ -235,5 +234,3 @@ def delete_userrequest(id):
     cursor.execute('DELETE FROM request WHERE id = {0}'.format(id))
     connect.commit()
     return redirect(url_for('adminindex'))
-if __name__ == '__main__':
-    app.run(debug=True)
