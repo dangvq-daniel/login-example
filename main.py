@@ -140,18 +140,18 @@ def userrequest():
         # Output message if something goes wrong...
         msg = ''
         #User is loggedin show them the userrequest page
-        if request.method == 'POST' and 'dateofticket'in request.form and 'requesttype' in request.form and 'Title' in request.form and 'Name' in request.form and 'Address' in request.form and 'Phonenumber' in request.form and 'Emailofticket' in request.form and 'userrequest' in request.form:
+        if request.method == 'POST' and 'dateofticket'in request.form and 'requesttype' in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
             dateofticket=request.form['dateofticket']
             requesttype=request.form['requesttype']
-            Title=request.form['title']
-            Name = request.form['name']
-            Address = request.form['address']
-            Phonenumber = request.form['phonenumber']
-            Emailofticket = request.form['emailofticket']
+            title=request.form['title']
+            name = request.form['name']
+            address = request.form['address']
+            phonenumber = request.form['phonenumber']
+            emailofticket = request.form['emailofticket']
             userrequest=request.form['userrequest']
         # Insert new request into request table
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute('INSERT INTO request (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (id,userofticket,dateofticket, requesttype,Title,Name,Address,Phonenumber,Emailofticket,userrequest,status))
+            cursor.execute('INSERT INTO request (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
             msg = 'You have successfully registered!'
             return redirect(url_for('userrequest'))
