@@ -153,13 +153,13 @@ def userrequest():
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
             #cursor.execute('INSERT INTO request (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
-            msg = 'dateofticket'
-            return redirect(url_for('userrequest', msg=msg))
+            msg = dateofticket
         else:
             msg = 'Incorrect input'
         # User is loggedin show them the userrequest page
-        return render_template('userrequest.html',msg=msg)
-    else:    return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+    return redirect(url_for('userrequest', msg = msg))
 #http://localhost:5000/pythinlogin/historyuserrequest
 @app.route('/pythonlogin/historyuserrequest')
 def historyuserrequest():
