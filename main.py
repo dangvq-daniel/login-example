@@ -154,7 +154,7 @@ def userrequest():
             #cursor.execute('INSERT INTO request (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (id,userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
             msg = 'dateofticket'
-            return redirect(url_for('userrequest'), msg=msg)
+            return redirect(url_for('userrequest', msg=msg))
         else:
             msg = 'Incorrect input'
         # User is loggedin show them the userrequest page
