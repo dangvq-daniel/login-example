@@ -1,0 +1,47 @@
+{% extends "adminlayout.html" %}
+{% block body %}
+  <div class="row">
+    <div class="col-sm-4 offset-md-4">
+      <div class="card card-body">
+        <form action="/update/{{user.id}}" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" name="userofticket" value="{{user.userofticket}}" >
+              </div>
+              <div class="form-group">
+                <input type="date" class="form-control" name="dateofticket" value="{{user.dateofticket}}">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="requesttype" value="{{user.requesttype}}">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="title" value="{{user.title}}">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="name" value="{{user.name}}">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="address" value="{{user.address}}">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="phonenumber" value="{{user.phonenumber}}">
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" name="emailofticket" value="{{user.emailofticket}}">
+              </div>
+              <textarea type="textarea" name ="userrequest" class="form-control" value="{{user.userrequest}}"> </textarea>
+              <div class="form-group">
+                <select placeholder="status" name="status" value="{{user.status}}" >
+                    <option>New</option>
+                    <option>Loading</option>
+                    <option>Done</option>
+                </select>
+              </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

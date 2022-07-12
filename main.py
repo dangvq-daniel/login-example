@@ -12,21 +12,21 @@ app = Flask(__name__)
 app.secret_key = 'dueJuly'
 
 # Enter your database connection details below
-"""app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Skraaq5904$'
-app.config['MYSQL_DB'] = 'pythonlogin'"""
-DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
+"""DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
-DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"""
+DB_HOST = "localhost"
+DB_NAME = "pythonlogin"
+DB_USER = "postgres"
+DB_PASS = "123456789"
 
 # Intialize MySQL
 #mysql = MySQL(app)
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
 # http://localhost:5000/pythonlogin/ - the following will be our login page, which will use both GET and POST requests
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/pythonlogin/', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
     msg = ''
@@ -131,3 +131,118 @@ def profile():
         return render_template('profile.html', account=account)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+# http://localhost:5000/pythinlogin/userrequest - this will be the user request page
+@app.route('/pythonlogin/userrequest', methods=['GET','POST'])
+def userrequest():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE username = admin' )
+        account = cursor.fetchone()
+        return render_template('adminindex.html', account=account)
+    elif 'loggein' in session:
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE username = %s',(session['username'],) )
+        account = cursor.fetchone()
+        userofticket=account['username']
+        id = account[id]
+        status = "New"
+        # Output message if something goes wrong...
+        msg = ''
+        #User is loggedin show them the userrequest page
+        if request.method == 'POST' and 'dateofticket'in request.form and 'requesttype' in request.form and 'Title' in request.form and 'Name' in request.form and 'Address' in request.form and 'Phonenumber' in request.form and 'Emailofticket' in request.form and 'userrequest' in request.form:
+            dateofticket=request.form['dateofticket']
+            requesttype=request.form['requesttype']
+            Title=request.form['Title']
+            Name = request.form['Name']
+            Address = request.form['Address']
+            Phonenumber = request.form['Phonenumber']
+            Emailofticket = request.form['Emailofticket']
+            userrequest=request.form['userrequest'] 
+        # Insert new request into request table
+            cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            cursor.execute('INSERT INTO request (id,userofticket,dateofticket, requesttype,Title,Name,Address,Phonenumber,Emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (id,userofticket,dateofticket, requesttype,Title,Name,Address,Phonenumber,Emailofticket,userrequest,status))
+            connect.commit()
+            msg = 'You have successfully registered!'
+            return redirect(url_for('userrequest'))
+        # User is loggedin show them the userrequest page
+        return render_template('userrequest.html',msg=msg)    
+    else:    return redirect(url_for('login'))        
+#http://localhost:5000/pythinlogin/historyuserrequest
+@app.route('/pythonlogin/historyuserrequest')
+def historyuserrequest():
+    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM request WHERE id=%s',(session['id']))
+    list_requests = cursor.fetone()
+    return render_template('historyuserrequest',list_requests=list_requests)
+# http://localhost:5000/pythinlogin/adminindex
+@app.route('/pythonlogin/adminindex')
+def adminindex(): 
+    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM request')
+    list_requests = cursor.fetchall()
+    return render_template('adminindex.html',list_requests=list_requests)
+@app.route('/add_userrequest', methods=['POST'])
+def add_userrequest():
+    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == 'POST':
+        userofticket=request.form['userofticket']
+        dateofticket=request.form['dateofticket']
+        requesttype=request.form['requesttype']
+        title=request.form['title']
+        name = request.form['name']
+        address = request.form['address']
+        phonenumber = request.form['phonenumber']
+        emailofticket = request.form['emailofticket']
+        userrequest=request.form['userrequest']
+        status=request.form['status']
+        cursor.execute("INSERT INTO request (userofticket, dateofticket, requesttype, tittle, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
+        connect.commit()
+        return redirect(url_for('Adminindex'))
+@app.route('/edit/<id>',methods=['GET','POST'])
+def edit_userrequest(id):
+    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM request WHERE id = %s', (id))
+    data = cursor.fetchall()
+    cursor.close()
+    print(data[0])
+    return render_template('adminedit.html', user = data[0])
+@app.route('/update/<id>',methods=['POST'])
+def update_userrequest(id):
+    if request.method == 'POST':
+        userofticket=request.form['userofticket']
+        dateofticket=request.form['dateofticket']
+        requesttype=request.form['requesttype']
+        title=request.form['title']
+        name = request.form['name']
+        address = request.form['address']
+        phonenumber = request.form['phonenumber']
+        emailofticket = request.form['emailofticket']
+        userrequest=request.form['userrequest']
+        status=request.form['status']
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("""
+            UPDATE request
+            SET userofticket = %s,
+                dateofticket = %s,
+                requesttype = %s,
+                title = %s,
+                name = %s,
+                address = %s,
+                phonenumber = %s,
+                emailofticket = %s,
+                userrequest = %s,
+                status =%s
+            WHERE id = %s
+            """, (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status, id))
+        connect.commit()
+        return redirect(url_for('adminindex'))
+@app.route('/delete/<string:id>', methods = ['POST','GET'])
+def delete_userrequest(id):
+    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('DELETE FROM request WHERE id = {0}'.format(id))
+    connect.commit()
+    return redirect(url_for('adminindex'))
+if __name__ == '__main__':
+    app.run(debug=True)
