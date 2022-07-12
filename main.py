@@ -155,6 +155,8 @@ def userrequest():
             connect.commit()
             msg = 'You have successfully registered!'
             return redirect(url_for('userrequest'))
+        else:
+            msg = 'Incorrect input'
         # User is loggedin show them the userrequest page
         return render_template('userrequest.html',msg=msg)
     else:    return redirect(url_for('login'))
