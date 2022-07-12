@@ -20,7 +20,7 @@ DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
 # http://localhost:5000/pythonlogin/ - the following will be our login page, which will use both GET and POST requests
-@app.route('/pythonlogin/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
     msg = ''
