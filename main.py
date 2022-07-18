@@ -128,7 +128,7 @@ def profile():
 # http://localhost:5000/pythinlogin/userrequest - this will be the user request page
 @app.route('/pythonlogin/userrequest', methods=['GET','POST'])
 def userrequest():
-    # Check if user is loggedin
+     # Check if user is loggedin
     msg = ''
     if 'loggedin' in session:
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -148,7 +148,7 @@ def userrequest():
             userrequest=request.form['userrequest']
         # Insert new request into request table
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute('INSERT INTO request (userofticket,dateofticket, title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)', (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status))
+            cursor.execute('INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s, %s, %s,%s,%s,%s,%s,%s,%s)', (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
             msg = 'Request submitted'
         else:
