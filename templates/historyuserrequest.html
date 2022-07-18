@@ -7,14 +7,21 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     </head>
     <body>
-        <h1 align="center">HISTROY REQUEST</h1>
-            <table class="table table-striped table-bordered" style="width:100%">
+        <nav class="navtop">
+            <div>
+              <h1>HISTORY REQUEST</h1>
+              <a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Home</a>
+              <a href="{{ url_for('userrequest') }}"><i class="fas fa-comment-alt"></i>Create new request</a>
+              <a href="{{url_for('historyuserrequest') }}"><i class="fas fa-tasks"></i>History request</a>
+              <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            </div>
+          </nav>
+            <table class="table table-striped table-bordered" style="background-color:#cccdcf;width:100%">
                 <thead>
                   <tr>
                       <td>id</td>
                       <td>Username</td>
                       <td>Date of request</td>
-                      <td>Request type</td>
                       <td>Title</td>
                       <td>Name</td>
                       <td>Address</td>
@@ -38,7 +45,6 @@
                       <td>{{ row[7] }}</td>
                       <td>{{ row[8] }}</td>
                       <td>{{ row[9] }}</td>
-                      <td>{{ row[10] }}</td>
                       </tr>
                   </tr>                   
                   {% endfor %}

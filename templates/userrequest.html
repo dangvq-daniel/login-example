@@ -5,9 +5,18 @@
         <title>{% block title %}CREATE NEW REQUEST{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 		    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-      </head>
-    <body>
-            <h1 align="center">CREATE NEW REQUEST</h1>    
+    </head>
+    <body>    
+      <nav class="navtop">
+        <div>
+          <h1>CREATE NEW REQUEST</h1>
+          <a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Home</a>
+          <a href="{{ url_for('userrequest') }}"><i class="fas fa-comment-alt"></i>Create new request</a>
+          <a href="{{url_for('historyuserrequest') }}"><i class="fas fa-tasks"></i>History request</a>
+          <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+      </nav>
+            <div class="userrequest">
             <div class="row">
                 <div class="col-md-16">
             <div class="card card-body">
@@ -17,9 +26,6 @@
                       </div>
                       <div class="form-group">
                         <input type="date" class="form-control" name="dateofticket" placeholder="Date">
-                      </div>
-                      <div class="form-group">
-                        <input type="text" class="form-control" name="requesttype" placeholder="Request Type">
                       </div>
                       <div class="form-group">
                         <input type="text" class="form-control" name="title" placeholder="Title">
@@ -37,13 +43,14 @@
                         <input type="email" class="form-control" name="emailofticket" placeholder="Email">
                       </div>
                       <textarea type="textarea" rows="7" cols="30" name ="userrequest" class="form-control" placeholder="Request"> </textarea>
-                      <div class="form-group">
+                      <div class="form-group" align="center">
                         <input type="submit" value="Request">
                       </div>
-                        <div class="msg">{{ msg }}</div>
+                        <div class="msg" align="center">{{ msg }}</div>
                     </form>
                     </div>
                     </div>
                     </div>
+                  </div>
     </body>
 </html>

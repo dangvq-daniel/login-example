@@ -12,7 +12,8 @@
 				<h1>Website Title</h1>
                 <a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Home</a>
 				<a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>Profile</a>
-				<a href="{{ url_for('userrequest') }}"><i class="fas fa-comment-alt"></i>Request</a>
+				<a href="{{ url_for('userrequest') }}"><i class="fas fa-comment-alt"></i>Create new request</a>
+				<a href="{{url_for('historyuserrequest') }}"><i class="fa-solid fa-rectangle-history"></i>History request</a>
 				<a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>
 		</nav>

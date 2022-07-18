@@ -145,12 +145,16 @@ body.loggedin {
 	padding: 5px;
 	margin: 0 0 10px 0;
 }
-.userrequest form input[type="text"], .userrequest form input[type="date"], .userrequest form input[type="email"]{
+.userrequest h1 { color:white; font-size:30px;
+}
+.userrequest form input[type="text"], .userrequest form input[type="date"], .userrequest form input[type="email"]
+{
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
 	box-sizing: border-box;
 }
-.userrequest form textarea[type="textarea"]{
-	width:100%
+.userrequest form textarea[type="textarea"]
+{
+	width:100%;
 }

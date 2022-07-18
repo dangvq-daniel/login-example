@@ -13,8 +13,7 @@ app.secret_key = 'dueJuly'
 DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
-DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
-
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d
 # Intialize MySQL
 #mysql = MySQL(app)
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
@@ -139,9 +138,8 @@ def userrequest():
         status = "New"
         # Output message if something goes wrong...
         #User is loggedin show them the userrequest page
-        if request.method == 'POST' and 'dateofticket'in request.form and 'requesttype' in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
+        if request.method == 'POST' and 'dateofticket'in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
             dateofticket=request.form['dateofticket']
-            requesttype=request.form['requesttype']
             title=request.form['title']
             name = request.form['name']
             address = request.form['address']
@@ -150,7 +148,7 @@ def userrequest():
             userrequest=request.form['userrequest']
         # Insert new request into request table
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute('INSERT INTO request (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s,%s)', (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
+            cursor.execute('INSERT INTO request (userofticket,dateofticket, title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)', (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
             msg = 'Request submitted'
         else:
@@ -162,10 +160,12 @@ def userrequest():
 #http://localhost:5000/pythinlogin/historyuserrequest
 @app.route('/pythonlogin/historyuserrequest')
 def historyuserrequest():
-    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('SELECT * FROM request WHERE id=%s',(session['id']))
-    list_requests = cursor.fetone()
-    return render_template('historyuserrequest',list_requests=list_requests)
+    if 'loggedin' in session:
+        # We need all the account info for the user so we can display it on the profile page
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM request WHERE userofticket = %s', (session['username'],))
+        list_requests = cursor.fetchall()
+    return render_template('historyuserrequest.html',list_requests=list_requests)
 # http://localhost:5000/pythinlogin/adminindex
 @app.route('/pythonlogin/adminindex')
 def adminindex(): 
@@ -179,7 +179,6 @@ def add_userrequest():
     if request.method == 'POST':
         userofticket    = request.form['userofticket']
         dateofticket    = request.form['dateofticket']
-        requesttype     = request.form['requesttype']
         title           = request.form['title']
         name            = request.form['name']
         address         = request.form['address']
@@ -187,7 +186,7 @@ def add_userrequest():
         emailofticket   = request.form['emailofticket']
         userrequest     = request.form['userrequest']
         status          = request.form['status']
-        cursor.execute("INSERT INTO request (userofticket, dateofticket, requesttype, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
+        cursor.execute("INSERT INTO request (userofticket, dateofticket, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, title,name,address,phonenumber,emailofticket,userrequest,status))
         connect.commit()
         return redirect(url_for('adminindex'))
 @app.route('/edit/<id>',methods=['GET','POST'])
@@ -203,7 +202,6 @@ def update_userrequest(id):
     if request.method == 'POST':
         userofticket    = request.form['userofticket']
         dateofticket    = request.form['dateofticket']
-        requesttype     = request.form['requesttype']
         title           = request.form['title']
         name            = request.form['name']
         address         = request.form['address']
@@ -216,7 +214,6 @@ def update_userrequest(id):
             UPDATE request
             SET userofticket = %s,
                 dateofticket = %s,
-                requesttype = %s,
                 title = %s,
                 name = %s,
                 address = %s,
@@ -225,7 +222,7 @@ def update_userrequest(id):
                 userrequest = %s,
                 status =%s
             WHERE id = %s
-            """, (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status, id))
+            """, (userofticket,dateofticket, title,name,address,phonenumber,emailofticket,userrequest,status, id))
         connect.commit()
         return redirect(url_for('adminindex'))
 @app.route('/delete/<string:id>', methods = ['POST','GET'])
