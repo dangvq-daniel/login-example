@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, session
 import psycopg2 #pip install psycopg2
 import psycopg2.extras
@@ -7,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 # Change this to your secret key (can be anything, it's for extra protection)
-app.secret_key = 'dueJuly'
+app.secret_key =    os.urandom(20)
 
 # Enter your database connection details below
 DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
@@ -128,7 +130,7 @@ def profile():
 # http://localhost:5000/pythinlogin/userrequest - this will be the user request page
 @app.route('/pythonlogin/userrequest', methods=['GET','POST'])
 def userrequest():
-     # Check if user is loggedin
+    # Check if user is loggedin
     msg = ''
     if 'loggedin' in session:
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -151,7 +153,7 @@ def userrequest():
             cursor.execute('INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s, %s, %s,%s,%s,%s,%s,%s,%s)', (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status))
             connect.commit()
             msg = 'Request submitted'
-        else:
+        elif request.method == 'POST':
             msg = 'Incorrect input'
         # User is loggedin show them the userrequest page
     else:
@@ -231,3 +233,5 @@ def delete_userrequest(id):
     cursor.execute('DELETE FROM request WHERE id = {0}'.format(id))
     connect.commit()
     return redirect(url_for('adminindex'))
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -9,9 +9,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 DB_HOST = "localhost"
-DB_NAME = "pythonlogin"
+DB_NAME = "account"
 DB_USER = "postgres"
-DB_PASS = "123456789"
+DB_PASS = "Tonymin2710"
+
+app.secret_key = 'dueJuly'
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 @app.route('/')
 def adminindex(): 
@@ -26,17 +28,17 @@ def add_userrequest():
         userofticket=request.form['userofticket']
         dateofticket=request.form['dateofticket']
         requesttype=request.form['requesttype']
-        title=request.form['Title']
-        name = request.form['Name']
-        address = request.form['Address']
-        phonenumber = request.form['Phonenumber']
-        emailofticket = request.form['Emailofticket']
+        title=request.form['title']
+        name = request.form['name']
+        address = request.form['address']
+        phonenumber = request.form['phonenumber']
+        emailofticket = request.form['emailofticket']
         userrequest=request.form['userrequest']
         status=request.form['status']
-        cursor.execute("INSERT INTO request (userofticket, dateofticket, requesttype, tittle, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
+        cursor.execute("INSERT INTO request (userofticket, dateofticket, requesttype, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, requesttype,title,name,address,phonenumber,emailofticket,userrequest,status))
         connect.commit()
         flash('Userrequest Added successfully')
-        return redirect(url_for('Adminindex'))
+        return redirect(url_for('adminindex'))
 @app.route('/edit/<id>',methods=['GET','POST'])
 def edit_userrequest(id):
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)

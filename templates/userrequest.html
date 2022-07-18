@@ -9,7 +9,7 @@
     <body>    
       <nav class="navtop">
         <div>
-          <h1>CREATE NEW REQUEST</h1>
+          <h1>Create New Request</h1>
           <a href="{{ url_for('home') }}"><i class="fas fa-home"></i>Home</a>
           <a href="{{ url_for('userrequest') }}"><i class="fas fa-comment-alt"></i>Create new request</a>
           <a href="{{url_for('historyuserrequest') }}"><i class="fas fa-tasks"></i>History request</a>
@@ -19,13 +19,10 @@
             <div class="userrequest">
             <div class="row">
                 <div class="col-md-16">
-            <div class="card card-body">
+            <div class="card card-body" align="center">
                     <form action="{{ url_for('userrequest') }}" method="POST" autocomplete="off">
                       <div class="form-group">
-                        <input type="text" class="form-control" name="userofticket" placeholder="Username">
-                      </div>
-                      <div class="form-group">
-                        <input type="date" class="form-control" name="dateofticket" placeholder="Date">
+                        <input type="date" class="form-control" name="dateofticket">
                       </div>
                       <div class="form-group">
                         <input type="text" class="form-control" name="title" placeholder="Title">
@@ -42,7 +39,7 @@
                       <div class="form-group">
                         <input type="email" class="form-control" name="emailofticket" placeholder="Email">
                       </div>
-                      <textarea type="textarea" rows="7" cols="30" name ="userrequest" class="form-control" placeholder="Request"> </textarea>
+                      <textarea type="textarea" rows="7" cols="30" name ="userrequest" class="form-control" placeholder="Request"></textarea>
                       <div class="form-group" align="center">
                         <input type="submit" value="Request">
                       </div>

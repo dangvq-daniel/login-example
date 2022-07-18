@@ -4,6 +4,7 @@
   	font-size: 16px;
   	-webkit-font-smoothing: antialiased;
   	-moz-osx-font-smoothing: grayscale;
+    color: #fff
 }
 body {
   	background-color: #435165;
@@ -145,16 +146,38 @@ body.loggedin {
 	padding: 5px;
 	margin: 0 0 10px 0;
 }
-.userrequest h1 { color:white; font-size:30px;
+.userrequest h1 {
+  color: #eaebed;
+  font-size:30px;
+  font-weight: bold;
 }
 .userrequest form input[type="text"], .userrequest form input[type="date"], .userrequest form input[type="email"]
 {
-	width: 100%;
-	padding: 12px 20px;
-	margin: 8px 0;
-	box-sizing: border-box;
+  margin: 8px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
 }
+::placeholder
+{
+  color: #fff;
+}
+
 .userrequest form textarea[type="textarea"]
 {
-	width:100%;
+  margin: 8px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
 }
+
