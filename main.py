@@ -13,7 +13,7 @@ app.secret_key = 'dueJuly'
 DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
-DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
 # Intialize MySQL
 #mysql = MySQL(app)
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
