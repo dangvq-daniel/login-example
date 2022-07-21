@@ -13,13 +13,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(20)
 
 # Enter your database connection details below
-DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
+"""DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
-DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
-"""DB_HOST = "localhost"
-DB_NAME = "pythonlogin"
-DB_USER = "postgres"
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"""
+DB_HOST = "localhost"
+DB_NAME = "account"
+DB_USER = "user"
 DB_PASS = "123456789"""
 # Intialize MySQL
 # mysql = MySQL(app)
@@ -34,7 +34,7 @@ def login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = request.form['password']
+        password = generate_password_hash(request.form['password'])
         # Check if account exists using MySQL
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
@@ -44,7 +44,7 @@ def login():
         if account:
             # Create session data, we can access this data in other routes
             password_rs = account['password']
-            if check_password_hash(password_rs, password):
+            if check_password_hash(password,password_rs):
                 session['loggedin'] = True
                 session['id'] = account['id']
                 session['username'] = account['username']
@@ -101,9 +101,8 @@ def register():
             verification = cursor.fetchone()
             if verification:
                 # Account doesnt exists and the form data is valid, now insert new account into accounts table
-                _hashed_password = generate_password_hash(password)
                 cursor.execute('INSERT INTO accounts (username, password, email) VALUES (%s, %s, %s)',
-                               (username, _hashed_password, email,))
+                               (username, password, email,))
                 connect.commit()
                 return redirect(url_for('login'))
             else:
