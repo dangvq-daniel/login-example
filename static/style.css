@@ -63,7 +63,7 @@ body {
   	margin-bottom: 20px;
   	padding: 0 15px;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: #38383838;
     color: #7D8CA3;
 }
@@ -145,11 +145,11 @@ body {
   	margin: 25px 0;
   	padding: 25px;
   	color: #fff;
-  	border-radius: 10px;
+  	border-radius: 20px;
 }
 .content > p table td, .content > div table td {
 	padding: 5px;
-	border-radius: 10px;
+	border-radius: 20px;
 }
 .content > p table td:first-child, .content > div table td:first-child {
 	font-weight: bold;
@@ -171,14 +171,15 @@ body {
 .userrequest form input[type="text"], .userrequest form input[type="date"], .userrequest form input[type="email"]
 {
   margin: 8px;
+  margin-right: 10px;
   background: #38383838;
   top: 50%;
   left: 50%;
-  width: 80%;
+  width: 75%;
   padding: 20px;
   box-sizing: border-box;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   color: #7D8CA3;
 }
 ::placeholder
@@ -192,21 +193,21 @@ body {
   background: #38383838;
   top: 50%;
   left: 50%;
-  width: 80%;
-  padding: 10px;
+  width: 75%;
+  padding: 20px;
   box-sizing: border-box;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   color: #79A9D1;
 }
 .userrequest{
-  	width: 640px;
+  	width: 700px;
   	box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
     border-radius: 20px;
   	margin: 100px auto;
     background-color: #FFFFFF;
 }
-.userrequest form input[type="submit"], .register form input[type="submit"] {
+.userrequest form input[type="submit"], .register form input[type="submit"], .changepassword form input[type="submit"] {
   	width: 100%;
   	padding: 10px;
   	margin-top: 20px;
@@ -221,15 +222,17 @@ body {
 }
 .userrequest form tag{
   	display: flex;
+    flex-direction: row;
   	justify-content: center;
   	align-items: center;
   	width: 100px;
   	color: #ffffff;
+    clear: both;
+    float:left;
+    margin : 10.5px;
+    margin-right: -10px;
 }
-<<<<<<< Updated upstream
 
-=======
-<<<<<<< HEAD
 .admin .box p{
     font-size: 1.5rem;
     line-height: 1.8;
@@ -244,7 +247,46 @@ body {
 .requestcontrollayout .requestcontrolindex .requestcontroledit .usercontrollayout .usercontrolindex .usercontroledit body{
 	background-color: #f3f4f7;
 }
-=======
 
->>>>>>> ebedb90a4dc411062fe9be875e4a638e566f11bf
->>>>>>> Stashed changes
+.changepassword h1 {
+  	text-align: center;
+  	color: #7D8CA3;
+  	font-size: 24px;
+  	padding: 20px 0 20px 0;
+  	border-bottom: 1px solid #dee0e4;
+}
+
+.changepassword {
+    width: 500px;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+  	margin: 100px auto;
+    background-color: #FFFFFF;
+}
+
+.changepassword form input[type="text"]{
+  margin: 8px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  color: #7D8CA3;
+}
+
+.changepassword form tag{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    color: #ffffff;
+    clear: both;
+    float:left;
+    margin: 10.5px;
+    margin-left : -3px;
+    margin-right: -20px;
+}

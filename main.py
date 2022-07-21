@@ -320,13 +320,7 @@ def update_user(id):
         password = request.form['password']
         email = request.form['email']
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute("""
-            UPDATE accounts
-            SET username = %s,
-                password = %s,
-                email = %s,
-            WHERE id = %s
-            """, (username, password, email, id))
+        cursor.execute("UPDATE accounts SET username = %s , password = %s , email = %s WHERE id = %s ", (username, password, email, id))
         connect.commit()
         return redirect(url_for('usercontrolindex'))
 
@@ -337,6 +331,34 @@ def delete_user(id):
     cursor.execute('DELETE FROM accounts WHERE id = {0}'.format(id))
     connect.commit()
     return redirect(url_for('usercontrolindex'))
+
+@app.route('/pythonlogin/changepassword', methods=['POST', 'GET'])
+def change_password():
+    msg = ''
+    if 'loggedin' in session:
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (session['username'],))
+        account = cursor.fetchone()
+        id = account['id']
+        if (request.method == 'POST') and ('password_cr' in request.form) and ('password_new' in request.form) and ('password_ver' in request.form):
+            password_cr = generate_password_hash(request.form['password_cr'])
+            password_new = generate_password_hash(request.form['password_new'])
+            password_ver = request.form['password_ver']
+            password = account['password']
+            if check_password_hash(password_cr, password):
+                if check_password_hash(password_new, password_ver):
+                    cursor.execute('UPDATE accounts SET password = %s WHERE id = %s', (password_ver, id))
+                    connect.commit()
+                    msg = 'Success!'
+                else:
+                    msg = 'Passwords do not match!'
+            else:
+                msg = 'Incorrect password'
+        elif request.method == 'POST':
+            msg = 'Incorrect input'
+    else:
+        return redirect(url_for('login'))
+    return render_template('changepassword.html', msg=msg)
 
 if __name__ == '__main__':
     app.run(debug=True)
