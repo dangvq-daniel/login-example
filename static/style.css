@@ -180,4 +180,25 @@ body.loggedin {
   border: none;
   border-radius: 10px;
 }
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+.admin .box p{
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color:var(--light-color);
+    padding:1rem 0;
+}
+.admin .box h3{
+    font-size: 2.5rem;
+    line-height: 1.8;
+    color:var(--black);
+}
+.requestcontrollayout .requestcontrolindex .requestcontroledit .usercontrollayout .usercontrolindex .usercontroledit body{
+	background-color: #f3f4f7;
+}
+=======
+
+>>>>>>> ebedb90a4dc411062fe9be875e4a638e566f11bf
+>>>>>>> Stashed changes
