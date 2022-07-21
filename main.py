@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
-import psycopg2 #pip install psycopg2
+import psycopg2  # pip install psycopg2
 import psycopg2.extras
 import re
 import clipboard
@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 # Change this to your secret key (can be anything, it's for extra protection)
-app.secret_key =    os.urandom(20)
+app.secret_key = os.urandom(20)
 
 # Enter your database connection details below
 DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
@@ -22,8 +22,9 @@ DB_NAME = "pythonlogin"
 DB_USER = "postgres"
 DB_PASS = "123456789"""
 # Intialize MySQL
-#mysql = MySQL(app)
+# mysql = MySQL(app)
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
+
 
 # http://localhost:5000/pythonlogin/ - the following will be our login page, which will use both GET and POST requests
 @app.route('/', methods=['GET', 'POST'])
@@ -31,7 +32,7 @@ def login():
     # Output message if something goes wrong...
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-           # Create variables for easy access
+        # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
         # Check if account exists using MySQL
@@ -39,7 +40,7 @@ def login():
         cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         # Fetch one record and return result
         account = cursor.fetchone()
-    # If account exists in accounts table in out database
+        # If account exists in accounts table in out database
         if account:
             # Create session data, we can access this data in other routes
             password_rs = account['password']
@@ -50,7 +51,8 @@ def login():
                 # Redirect to home page
                 if session['id'] == 1:
                     return redirect(url_for('admin'))
-                else: return redirect(url_for('home'))
+                else:
+                    return redirect(url_for('home'))
             else:
                 msg = 'Incorrect username/password!'
         else:
@@ -58,14 +60,16 @@ def login():
             msg = 'Incorrect username/password!'
     return render_template('index.html', msg=msg)
 
+
 @app.route('/pythonlogin/logout')
 def logout():
     # Remove session data, this will log the user out
-   session.pop('loggedin', None)
-   session.pop('id', None)
-   session.pop('username', None)
-   # Redirect to login page
-   return redirect(url_for('login'))
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    # Redirect to login page
+    return redirect(url_for('login'))
+
 
 # http://localhost:5000/pythinlogin/register - this will be the registration page, we need to use both GET and POST requests
 @app.route('/pythonlogin/register', methods=['GET', 'POST'])
@@ -98,7 +102,8 @@ def register():
             if verification:
                 # Account doesnt exists and the form data is valid, now insert new account into accounts table
                 _hashed_password = generate_password_hash(password)
-                cursor.execute('INSERT INTO accounts (username, password, email) VALUES (%s, %s, %s)', (username, _hashed_password, email,))
+                cursor.execute('INSERT INTO accounts (username, password, email) VALUES (%s, %s, %s)',
+                               (username, _hashed_password, email,))
                 connect.commit()
                 return redirect(url_for('login'))
             else:
@@ -120,6 +125,7 @@ def home():
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
+
 # http://localhost:5000/pythinlogin/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/pythonlogin/profile')
 def profile():
@@ -134,30 +140,33 @@ def profile():
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
-#CREATE NEW USER REQUEST
-@app.route('/pythonlogin/userrequest', methods=['GET','POST'])
+
+# CREATE NEW USER REQUEST
+@app.route('/pythonlogin/userrequest', methods=['GET', 'POST'])
 def userrequest():
     # Check if user is loggedin
     msg = ''
     if 'loggedin' in session:
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE username = %s',(session['username'],) )
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (session['username'],))
         account = cursor.fetchone()
-        userofticket=account['username']
+        userofticket = account['username']
         status = "New"
         # Output message if something goes wrong...
-        #User is loggedin show them the userrequest page
-        if request.method == 'POST' and 'dateofticket'in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
-            dateofticket=request.form['dateofticket']
-            title=request.form['title']
+        # User is loggedin show them the userrequest page
+        if request.method == 'POST' and 'dateofticket' in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
+            dateofticket = request.form['dateofticket']
+            title = request.form['title']
             name = request.form['name']
             address = request.form['address']
             phonenumber = request.form['phonenumber']
             emailofticket = request.form['emailofticket']
-            userrequest=request.form['userrequest']
-        # Insert new request into request table
+            userrequest = request.form['userrequest']
+            # Insert new request into request table
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute('INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)', (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status))
+            cursor.execute(
+                'INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)',
+                (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
             connect.commit()
             msg = 'Request submitted'
         elif request.method == 'POST':
@@ -165,8 +174,10 @@ def userrequest():
         # User is loggedin show them the userrequest page
     else:
         return redirect(url_for('login'))
-    return render_template('userrequest.html',msg = msg)
-#USER VIEW HISTORY REQUEST
+    return render_template('userrequest.html', msg=msg)
+
+
+# USER VIEW HISTORY REQUEST
 @app.route('/pythonlogin/historyuserrequest')
 def historyuserrequest():
     if 'loggedin' in session:
@@ -174,62 +185,74 @@ def historyuserrequest():
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM request WHERE userofticket = %s', (session['username'],))
         list_requests = cursor.fetchall()
-    return render_template('historyuserrequest.html',list_requests=list_requests)
-#ADMIN
-@app.route('/pythologin/admin', methods=['POST','GET'])
+    return render_template('historyuserrequest.html', list_requests=list_requests)
+
+
+# ADMIN
+@app.route('/pythologin/admin', methods=['POST', 'GET'])
 def admin():
-    if 'loggedin' in session and session['id'] == 1 :
+    if 'loggedin' in session and session['id'] == 1:
         # User is loggedin show them the admin page
-            return render_template('admin.html')
+        return render_template('admin.html')
     else:
-            return redirect(url_for('login'))
-#ADMIN CONTROL USER REQUEST
+        return redirect(url_for('login'))
+
+
+# ADMIN CONTROL USER REQUEST
 @app.route('/pythonlogin/admin/requestcontrolindex')
-def requestcontrolindex(): 
-    if 'loggedin' in session and session['id'] == 1 :
+def requestcontrolindex():
+    if 'loggedin' in session and session['id'] == 1:
         # User is loggedin show them the admin page
-            cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-            cursor.execute('SELECT * FROM request')
-            list_requests = cursor.fetchall()
-            return render_template('requestcontrolindex.html',list_requests=list_requests)
+        cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute('SELECT * FROM request')
+        list_requests = cursor.fetchall()
+        return render_template('requestcontrolindex.html', list_requests=list_requests)
     else:
-            return redirect(url_for('home'))
+        return redirect(url_for('home'))
+
+
 @app.route('/add_userrequest', methods=['POST'])
 def add_userrequest():
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
-        userofticket    = request.form['userofticket']
-        dateofticket    = request.form['dateofticket']
-        title           = request.form['title']
-        name            = request.form['name']
-        address         = request.form['address']
-        phonenumber     = request.form['phonenumber']
-        emailofticket   = request.form['emailofticket']
-        userrequest     = request.form['userrequest']
-        status          = request.form['status']
-        cursor.execute("INSERT INTO request (userofticket, dateofticket, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (userofticket,dateofticket, title,name,address,phonenumber,emailofticket,userrequest,status))
+        userofticket = request.form['userofticket']
+        dateofticket = request.form['dateofticket']
+        title = request.form['title']
+        name = request.form['name']
+        address = request.form['address']
+        phonenumber = request.form['phonenumber']
+        emailofticket = request.form['emailofticket']
+        userrequest = request.form['userrequest']
+        status = request.form['status']
+        cursor.execute(
+            "INSERT INTO request (userofticket, dateofticket, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
         connect.commit()
         return redirect(url_for('requestcontrolindex'))
-@app.route('/editrequest/<id>',methods=['GET','POST'])
+
+
+@app.route('/editrequest/<id>', methods=['GET', 'POST'])
 def edit_request(id):
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM request WHERE id = %s', (id))
     data = cursor.fetchall()
     cursor.close()
     print(data[0])
-    return render_template('requestcontroledit.html', user = data[0])
-@app.route('/updaterequest/<id>',methods=['POST'])
+    return render_template('requestcontroledit.html', user=data[0])
+
+
+@app.route('/updaterequest/<id>', methods=['POST'])
 def update_request(id):
     if request.method == 'POST':
-        userofticket    = request.form['userofticket']
-        dateofticket    = request.form['dateofticket']
-        title           = request.form['title']
-        name            = request.form['name']
-        address         = request.form['address']
-        phonenumber     = request.form['phonenumber']
-        emailofticket   = request.form['emailofticket']
-        userrequest     = request.form['userrequest']
-        status          = request.form['status']
+        userofticket = request.form['userofticket']
+        dateofticket = request.form['dateofticket']
+        title = request.form['title']
+        name = request.form['name']
+        address = request.form['address']
+        phonenumber = request.form['phonenumber']
+        emailofticket = request.form['emailofticket']
+        userrequest = request.form['userrequest']
+        status = request.form['status']
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("""
             UPDATE request
@@ -243,51 +266,60 @@ def update_request(id):
                 userrequest = %s,
                 status =%s
             WHERE id = %s
-            """, (userofticket,dateofticket, title,name,address,phonenumber,emailofticket,userrequest,status, id))
+            """, (
+        userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status, id))
         connect.commit()
         return redirect(url_for('requestcontrolindex'))
-@app.route('/deleterequest/<string:id>', methods = ['POST','GET'])
+
+
+@app.route('/deleterequest/<string:id>', methods=['POST', 'GET'])
 def delete_request(id):
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('DELETE FROM request WHERE id = {0}'.format(id))
     connect.commit()
-<<<<<<< HEAD
     return redirect(url_for('requestcontrolindex'))
-#ADMIN CONTROL USER ACCOUNTS
+
+
+# ADMIN CONTROL USER ACCOUNTS
 @app.route('/pythonlogin/admin/usercontrolindex')
-def usercontrolindex(): 
-    if 'loggedin' in session and session['id'] == 1 :
+def usercontrolindex():
+    if 'loggedin' in session and session['id'] == 1:
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute('SELECT * FROM accounts')
         list_requests = cursor.fetchall()
-        return render_template('usercontrolindex.html',list_requests=list_requests)   
+        return render_template('usercontrolindex.html', list_requests=list_requests)
     else:
         return redirect(url_for('home'))
-    
+
+
 @app.route('/add_user', methods=['POST'])
 def add_user():
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
-        username    = request.form['username']
-        password    = request.form['password']
-        email   = request.form['email']
-        cursor.execute("INSERT INTO accounts (username, password,email) VALUES (%s,%s,%s)", (username, password,email))
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        cursor.execute("INSERT INTO accounts (username, password,email) VALUES (%s,%s,%s)", (username, password, email))
         connect.commit()
         return redirect(url_for('usercontrolindex'))
-@app.route('/edituser/<id>',methods=['GET','POST'])
+
+
+@app.route('/edituser/<id>', methods=['GET', 'POST'])
 def edit_user(id):
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('SELECT * FROM accounts WHERE id = %s', (id))
     data = cursor.fetchall()
     cursor.close()
     print(data[0])
-    return render_template('usercontroledit.html', user = data[0])
-@app.route('/updateuser/<id>',methods=['POST'])
+    return render_template('usercontroledit.html', user=data[0])
+
+
+@app.route('/updateuser/<id>', methods=['POST'])
 def update_user(id):
     if request.method == 'POST':
-        username            = request.form['username']
-        password            = request.form['password']
-        email               = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("""
             UPDATE accounts
@@ -295,22 +327,17 @@ def update_user(id):
                 password = %s,
                 email = %s,
             WHERE id = %s
-            """, (username,password,email,id))
+            """, (username, password, email, id))
         connect.commit()
         return redirect(url_for('usercontrolindex'))
-@app.route('/deleteuser/<string:id>', methods = ['POST','GET'])
+
+
+@app.route('/deleteuser/<string:id>', methods=['POST', 'GET'])
 def delete_user(id):
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute('DELETE FROM accounts WHERE id = {0}'.format(id))
     connect.commit()
     return redirect(url_for('usercontrolindex'))
 
-=======
-    return redirect(url_for('adminindex'))
 if __name__ == '__main__':
-<<<<<<< Updated upstream
     app.run(debug=True)
-=======
-    app.run(debug=True)
->>>>>>> ebedb90a4dc411062fe9be875e4a638e566f11bf
->>>>>>> Stashed changes

@@ -15,19 +15,19 @@
 			</div>
 			<form action="{{ url_for('register') }}" method="post" autocomplete="off">
 				<label for="username">
-					<i class="fas fa-user"></i>
+					<i class="fas fa-user circle-icon"></i>
 				</label>
 				<input type="text" name="username" placeholder="Username" id="username" required>
 				<label for="password">
-					<i class="fas fa-lock"></i>
+					<i class="fas fa-lock circle-icon"></i>
 				</label>
 				<input type="password" name="password" placeholder="Password" id="password" required>
 				<label for="email">
-					<i class="fas fa-envelope"></i>
+					<i class="fas fa-envelope circle-icon"></i>
 				</label>
 				<input type="email" name="email" placeholder="Email" id="email" required>
 				<label for="token">
-					<i class="fas fa-cog"></i>
+					<i class="fas fa-cog circle-icon"></i>
 				</label>
 				<input type="text" name="token" placeholder="Token" id="token" required>
 				<div class="msg">{{ msg }}</div>
