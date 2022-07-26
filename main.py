@@ -16,8 +16,8 @@ app.config['MAIL_SEVER'] ='smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'nguyenhuusang1118@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Sang18111998'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SLL'] = False
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SLL'] = True
 mail = Mail(app)
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7\xa9\xfb'
