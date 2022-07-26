@@ -1,14 +1,24 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_mail import Mail,Message
 import psycopg2  # pip install psycopg2
 import psycopg2.extras
 import re
+import os
 import clipboard
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-
+DEBUG=True
+app.config.from_object(__name__)
+app.config['MAIL_SEVER'] ='smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'nguyenhuusang1118@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Sang18111998'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SLL'] = False
+mail = Mail(app)
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = os.urandom(20)
 
@@ -19,7 +29,7 @@ DB_USER = "dgmngaedsbampl"
 DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"""
 DB_HOST = "localhost"
 DB_NAME = "account"
-DB_USER = "user"
+DB_USER = "postgres"
 DB_PASS = "123456789"""
 # Intialize MySQL
 # mysql = MySQL(app)
@@ -167,6 +177,10 @@ def userrequest():
                 'INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)',
                 (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
             connect.commit()
+            mess = Message("NEW REQUEST",sender=['nguyenhuusang1118@gmail.com'],recipients=['pinino1811@gmail.com'])
+            mess.body = "Have a new request from "
+            mail.connect()
+            mail.send(mess)
             msg = 'Request submitted'
         elif request.method == 'POST':
             msg = 'Incorrect input'
@@ -359,6 +373,26 @@ def change_password():
     else:
         return redirect(url_for('login'))
     return render_template('changepassword.html', msg=msg)
+
+# GET TOKEN
+@app.route('/python/admin/gettokens',methods=['GET','POST'])
+def gettokens():
+    if 'loggedin' in session and session['id'] == 1 :
+        # User is loggedin show them the admin page
+            cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            cursor.execute('SELECT * FROM tokens')
+            list_requests = cursor.fetchall()
+            return render_template('gettokens.html',list_requests=list_requests)
+    else:
+            return redirect(url_for('home'))
+@app.route('/get_token/<token>',methods=['POST', 'GET'])
+def get_token(token):
+    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM tokens')
+    data = cursor.fetchall()
+    df = data[0]
+    df.to_clipboard()
+    return render_template('gettokens.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
