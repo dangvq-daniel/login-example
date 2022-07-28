@@ -1,36 +1,28 @@
-import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mail import Mail,Message
-import psycopg2  # pip install psycopg2
+import psycopg2
 import psycopg2.extras
 import re
 import os
-import clipboard
+import ssl
+import smtplib
+from email.message import EmailMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-DEBUG=True
-app.config.from_object(__name__)
-app.config['MAIL_SEVER'] ='smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'nguyenhuusang1118@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Sang18111998'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SLL'] = True
-mail = Mail(app)
+
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7\xa9\xfb'
 
 # Enter your database connection details below
-DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
+"""DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
-DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
-"""
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"""
 DB_HOST = "localhost"
 DB_NAME = "account"
-DB_USER = "postgres"
+DB_USER = "user"
 DB_PASS = "123456789"""
 # Intialize MySQL
 # mysql = MySQL(app)
@@ -154,6 +146,9 @@ def profile():
 # CREATE NEW USER REQUEST
 @app.route('/pythonlogin/userrequest', methods=['GET', 'POST'])
 def userrequest():
+    email_sender = 'noreply.DPBusiness@gmail.com'
+    email_password = 'aggctvaynqbindkd'
+    email_receiver = 'qdang969@gmail.com'
     # Check if user is loggedin
     msg = ''
     if 'loggedin' in session:
@@ -178,10 +173,17 @@ def userrequest():
                 'INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)',
                 (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
             connect.commit()
-            mess = Message("NEW REQUEST",sender=['nguyenhuusang1118@gmail.com'],recipients=['pinino1811@gmail.com'])
-            mess.body = "Have a new request from "
-            mail.connect()
-            mail.send(mess)
+            subject = 'New Request from' + userrequest
+            body = "Have new request titled " + title + " with phone number: " + phonenumber + " and email: " + emailofticket
+            em = EmailMessage()
+            em['From'] = email_sender
+            em['To'] = email_receiver
+            em['Subject'] = subject
+            em.set_content(body)
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context = context) as smtp:
+                smtp.login(email_sender, email_password)
+                smtp.sendmail(email_sender, email_receiver, em.as_string())
             msg = 'Request submitted'
         elif request.method == 'POST':
             msg = 'Incorrect input'
@@ -394,6 +396,8 @@ def get_token(token):
     df = data[0]
     df.to_clipboard()
     return render_template('gettokens.html')
-
+curs = connect.cursor()
+curs.execute("ROLLBACK")
+connect.commit()
 if __name__ == '__main__':
     app.run(debug=True)
