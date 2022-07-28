@@ -388,19 +388,5 @@ def gettokens():
             return render_template('gettokens.html',data=data)
     else:
             return redirect(url_for('home'))
-<<<<<<< HEAD
-=======
-@app.route('/get_token/<token>',methods=['POST', 'GET'])
-def get_token(token):
-    cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('SELECT * FROM tokens')
-    data = cursor.fetchall()
-    df = data[0]
-    df.to_clipboard()
-    return render_template('gettokens.html')
-curs = connect.cursor()
-curs.execute("ROLLBACK")
-connect.commit()
->>>>>>> 01752d30298c904dc96cc870877a46f092fc3afd
 if __name__ == '__main__':
     app.run(debug=True)
