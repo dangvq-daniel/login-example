@@ -5,55 +5,30 @@
 {% block content %}
 
 <h2>GET TOKENS</h2>
-<div class="col-md-4">
-    <table id="example2" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-          <tr>
-              <td>Tokens</td>
-          </tr>
-        </thead>
-        
-          <tbody> 
-          {% for row in list_requests %}
-          <tr>
-              <td >{{ row[0] }}</td>
-              <td width="130"> <input type="button" name="copy" value="Copy"/>
-                </td>
-          </tr>                   
-          
-          {% endfor %}
-        </tbody>
-      </table>
-      <script>
-    $(document).ready( function () {
-    var table = $('#example2').DataTable( {
-      dom: 'Bftrip',
-      buttons: [
-        {
-          extend: 'copy',
-          exportOptions: {
-            rows: '.copy_me'
-          }
-        }
-      ],
-      initComplete: function () {$( this.api().button(0).node() ).css({'display': 'none'});
-      }
-    } );
-  
-    $('#example2').on('click', 'tbody input[name="copy"]', function () {
-      // Get the row clicked on
-      var tr = $(this).closest('tr');
-      
-      // Add class for copy button
-      $(tr).addClass('copy_me');
-  
-      // Trigger the button
-      table.button(0).trigger(); 
-  
-      // Remove the copy class
-      $(tr).removeClass('copy-me');
-    });
-  } );
-      </script>
+<div class="gettokens">
+<div class="card card-body" align="center">
+  <div class="form-group">
+  <input type="text" value={{data[0]}} id="myInput">
+  </div>
+  <div class="form-group">
+<button class="get_tokens" onclick="myFunction()">GET</button>
 </div>
+</div>
+<script>
+  function myFunction() {
+    /* Get the text field */
+    var copyText = document.getElementById("myInput");
+  
+    /* Select the text field */
+    copyText.select();
+     /* For mobile devices */
+  
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText.value);
+    
+    /* Alert the copied text */
+    alert("Copied the text: " + copyText.value);
+  }
+  </script>
 {% endblock %}
+

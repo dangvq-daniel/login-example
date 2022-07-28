@@ -1,17 +1,26 @@
 {% extends "usercontrollayout.html" %}
 {% block body %}
   <div class="row">
-    <div class="col-sm-4 offset-md-4">
       <div class="card card-body">
         <form action="/updateuser/{{user.id}}" method="POST">
-            <div class="form-group">
-                <input type="text" class="form-control" name="username" value="{{user.username}}" >
-              </div>
-              <div class="form-group">
-                <input type="password" class="form-control" name="password" value="{{user.password}}">
-              </div>
-                <input type="email" class="form-control" name="email" value="{{user.email}}">
-              </div>
+          <div class="form-group">
+            <tag for="name">
+              <i class="fas fa-user circle-icon"></i>
+          </tag>  
+            <input type="text" class="form-control" style="text-overflow:ellipsis" name="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <tag for="password">
+              <i class="fas fa-lock circle-icon"></i>
+          </tag> 
+            <input type="password" class="form-control" style="text-overflow:ellipsis" name="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <tag for="email">
+              <i class="fas fa-envelope circle-icon"></i>
+          </tag> 
+            <input type="email" class="form-control" style="text-overflow:ellipsis" name="email" placeholder="Email">
+          </div>
             <button type="submit" class="btn btn-primary btn-block">
               Update
             </button>

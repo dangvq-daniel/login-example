@@ -4,6 +4,7 @@
   	font-size: 16px;
   	-webkit-font-smoothing: antialiased;
   	-moz-osx-font-smoothing: grayscale;
+	text-overflow: ellipsis;
 }
 body {
   	background-color: #79A9D1;
@@ -94,7 +95,7 @@ body {
 .navtop {
   	background-color: #7D8CA3;
   	height: 60px;
-  	width: 100%;
+  	width: 100% ;
   	border: 0;
 }
 .navtop div {
@@ -168,7 +169,7 @@ body {
   	border-bottom: 1px solid #dee0e4;
 }
 
-.userrequest form input[type="text"], .userrequest form input[type="date"], .userrequest form input[type="email"]
+.userrequest form input[type="text"], .userrequest form input[type="date"], .userrequest form input[type="email"], .requestcontrolindex form input[type="text"], .requestcontrolindex form input[type="date"], .requestcontrolindex form input[type="email"]
 {
   margin: 8px;
   margin-right: 10px;
@@ -187,7 +188,7 @@ body {
   color: #7D8CA3;
 }
 
-.userrequest form textarea[type="textarea"]
+.userrequest form textarea[type="textarea"], .usercontrolindex form textarea[type="textarea"], .requestcontrolindex form textarea[type="textarea"]
 {
   margin: 8px;
   background: #38383838;
@@ -198,7 +199,7 @@ body {
   box-sizing: border-box;
   border: none;
   border-radius: 20px;
-  color: #79A9D1;
+  color: #7D8CA3;
 }
 .userrequest{
   	width: 700px;
@@ -244,9 +245,6 @@ body {
     line-height: 1.8;
     color:var(--black);
 }
-.requestcontrollayout .requestcontrolindex .requestcontroledit .usercontrollayout .usercontrolindex .usercontroledit body{
-	background-color: #f3f4f7;
-}
 
 .changepassword h1 {
   	text-align: center;
@@ -290,3 +288,262 @@ body {
     margin-left : -3px;
     margin-right: -20px;
 }
+.adminlayout form table {
+text-overflow: ellipsis;
+}
+.usercontrollayout form table {
+text-overflow: ellipsis;
+}
+.requestcontrol form table{
+	text-overflow: ellipsis;
+}
+.requestcontrolindex form navtop {
+	background-color: #7D8CA3;
+	height: 60px;
+	width: auto ;
+	border: 0;
+}
+.responstable {
+  margin: 1em 0;
+  width: 100%;
+  overflow: hidden;
+  background: #FFF;
+  color: #024457;
+  border-radius: 0px;
+  max-width: 2em;
+  border: 1px solid #167F92;
+}
+.responstable tr {
+  border: 1px solid #D9E4E6;
+}
+.responstable tr:nth-child(odd) {
+  background-color: #EAF3F3;
+}
+.responstable th {
+  display: none;
+  border: 1px solid #FFF;
+  background-color: #77a8d0;
+  color: #FFF;
+  padding: 1em;
+}
+.responstable th:first-child {
+  display: table-cell;
+  text-align: center;
+}
+.responstable th:nth-child(2) {
+  display: table-cell;
+}
+.responstable th:nth-child(2) span {
+  display: none;
+}
+.responstable th:nth-child(2):after {
+  content: attr(data-th);
+}
+@media (min-width: 480px) {
+  .responstable th:nth-child(2) span {
+    display: block;
+  }
+  .responstable th:nth-child(2):after {
+    display: none;
+  }
+}
+.responstable td {
+  display: contents;
+  overflow: auto;
+  text-overflow: ellipsis;
+  max-width: 44em;
+}
+.responstable td:first-child {
+  display: table-cell;
+  text-align: center;
+  border-right: 1px solid #D9E4E6;
+}
+@media (min-width: 480px) {
+  .responstable td {
+    border: 1px solid #D9E4E6;
+  }
+}
+.responstable th, .responstable td {
+  text-align: center;
+  margin: .5em 1em;
+}
+@media (min-width: 480px) {
+	.responstable th, .responstable td {
+	  display: table-cell;
+	  padding: 1em;
+	}
+  }
+.content input[type=text]
+{
+	margin: 8px;
+	margin-right: 10px;
+	background: #38383838;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	border: none;
+	border-radius: 20px;
+	color: rgb(0, 0, 0);
+	text-align: center;
+}
+.container h2 {
+	margin: 0;
+  	padding: 25px 0;
+  	font-size: 22px;
+  	border-bottom: 1px solid #e0e0e3;
+  	color: #fff;
+}
+.container input[type=text]
+{
+	margin: 8px;
+  margin-right: 10px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  color: black;
+}
+.container input[type=date]
+{
+	margin: 8px;
+  margin-right: 10px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  color: black;
+}
+.container input[type=email]
+{
+	margin: 8px;
+  margin-right: 10px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  color: black;
+}
+.container textarea[type=textarea]
+{
+	margin: 8px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  color: black;
+}
+.container input[type=password]
+{
+  margin: 8px;
+  margin-right: 10px;
+  background: #38383838;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  color: black;
+}
+.container  tag{
+	display: flex;
+  flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	color: #ffffff;
+  clear: both;
+  float:left;
+  margin : 10.5px;
+  margin-right: -10px;
+}  
+
+  
+.container .box-select {
+	background-color: #167F92;
+	color: white;
+	padding: 5px;
+	width: 250px;
+	border: none;
+	font-size: 20px;
+	box-shadow: 0 5px 25px #7D8CA3;
+	-webkit-appearance: button;
+	appearance: button;
+	outline: none;
+  }
+  
+.container .box-select::before {
+	content: "\f13a";
+	font-family: FontAwesome;
+	top: 0;
+	right: 0;
+	width: 20%;
+	height: 80%;
+	text-align: center;
+	font-size: 28px;
+	line-height: 100px;
+	color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.1);
+	pointer-events: none;
+  }
+  
+.container .box-select:hover::before {
+	color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+.content .get_tokens {
+	appearance: button;
+	backface-visibility: hidden;
+	background-color: #405cf5;
+	border-radius: 6px;
+	border-width: 0;
+	box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+	box-sizing: border-box;
+	color: #fff;
+	cursor: pointer;
+	font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+	font-size: 100%;
+	height: 44px;
+	line-height: 1.15;
+	margin: 12px 0 0;
+	outline: none;
+	overflow: hidden;
+	padding: 0 25px;
+	position: relative;
+	text-align: center;
+	text-transform: none;
+	transform: translateZ(0);
+	transition: all .2s,box-shadow .08s ease-in;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	width: 100%;
+  }
+  
+  .button-9:disabled {
+	cursor: default;
+  }
+  
+  .button-9:focus {
+	box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+  }
