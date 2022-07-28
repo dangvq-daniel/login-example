@@ -16,14 +16,14 @@ app = Flask(__name__)
 app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7\xa9\xfb'
 
 # Enter your database connection details below
-DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
+"""DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
-DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
-"""DB_HOST = "localhost"
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"""
+DB_HOST = "localhost"
 DB_NAME = "account"
-DB_USER = "user"
-DB_PASS = "123456789"""
+DB_USER = "postgres"
+DB_PASS = "123456789"
 # Intialize MySQL
 # mysql = MySQL(app)
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
