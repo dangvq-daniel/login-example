@@ -174,7 +174,7 @@ def userrequest():
                 'INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)',
                 (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
             connect.commit()
-            subject = 'New Request from' + userrequest
+            subject = 'New Request from ' + userofticket
             body = "Have new request titled " + title + " with phone number: " + phonenumber + " and email: " + emailofticket
             em = EmailMessage()
             em['From'] = email_sender
