@@ -10,4 +10,4 @@ The customer will be able to send a ticket in their login profile and the compan
 
 Connect to online hosted database to store information
 
-A super user that have the rights to view request, edit and update the requests, view accounts created, edit and update the accounts, get tokens from database.
+There is a  super user that have the rights to view request, edit and update the requests, view accounts created, edit and update the accounts, get tokens from database.
