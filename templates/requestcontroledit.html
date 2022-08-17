@@ -5,6 +5,12 @@
       <div class="card card-body" align="center">
         <form action="/updaterequest/{{user.id}}" method="POST">
           <div class="form-group">
+            <input type="text" class="form-control" name="invoicenumber" required>
+            <tag for="invoicenumber">
+                <i class="fas fa-file-invoice circle-icon"></i>
+            </tag>
+          </div>
+          <div class="form-group">
             <tag for="userofticket">
               <i class="fas fa-id-card circle-icon"></i>
           </tag>
@@ -54,7 +60,7 @@
         </div>
                 <select class="box-select" placeholder="status" name="status" value="{{user.status}}">
                     <option>New</option>
-                    <option>Loading</option>
+                    <option>In Progress</option>
                     <option>Done</option>
                 </select>
             <button type="submit" class="btn btn-primary btn-block">

@@ -18,6 +18,9 @@
       <div class="card card-body ">
         <form action="{{url_for('add_userrequest')}}" method="POST">
           <div class="form-group">
+            <input type="text" class="form-control" name="invoicenumber" placeholder="Invoice number">
+          </div>
+          <div class="form-group">
             <input type="text" class="form-control" name="userofticket" placeholder="Username">
           </div>
           <div class="form-group">
@@ -42,7 +45,7 @@
           <div class="form-group">
             <select name="status" placeholder="status">
                 <option>New</option>
-                <option>Loading</option>
+                <option>In Progress</option>
                 <option>Done</option>
             </select>
           </div>

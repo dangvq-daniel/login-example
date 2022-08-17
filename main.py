@@ -19,9 +19,14 @@ app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7
 DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
+<<<<<<< Updated upstream
 DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
 """
 DB_HOST = "localhost"
+=======
+DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d
+"""DB_HOST = "localhost"
+>>>>>>> Stashed changes
 DB_NAME = "account"
 DB_USER = "postgres"
 DB_PASS = "123456789"""
@@ -161,6 +166,7 @@ def userrequest():
         # Output message if something goes wrong...
         # User is loggedin show them the userrequest page
         if request.method == 'POST' and 'dateofticket' in request.form and 'title' in request.form and 'name' in request.form and 'address' in request.form and 'phonenumber' in request.form and 'emailofticket' in request.form and 'userrequest' in request.form:
+            invoicenumber = request.form['invoicenumber']
             dateofticket = request.form['dateofticket']
             title = request.form['title']
             name = request.form['name']
@@ -171,11 +177,16 @@ def userrequest():
             # Insert new request into request table
             cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
             cursor.execute(
-                'INSERT INTO request (userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s)',
-                (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
+                'INSERT INTO request ( invoicenumber,userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s)',
+                (invoicenumber, userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
             connect.commit()
+<<<<<<< Updated upstream
             subject = 'New Request from ' + userofticket
             body = "Have new request titled " + title + " with phone number: " + phonenumber + " and email: " + emailofticket
+=======
+            subject = 'New Request from' + userrequest
+            body = "Have new request titled " + title +"with invoice number:" + invoicenumber + " with phone number: " + phonenumber + " and email: " + emailofticket
+>>>>>>> Stashed changes
             em = EmailMessage()
             em['From'] = email_sender
             em['To'] = email_receiver
@@ -232,6 +243,7 @@ def requestcontrolindex():
 def add_userrequest():
     cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
+        invoicenumber = request.form['invoicenumber']
         userofticket = request.form['userofticket']
         dateofticket = request.form['dateofticket']
         title = request.form['title']
@@ -242,8 +254,8 @@ def add_userrequest():
         userrequest = request.form['userrequest']
         status = request.form['status']
         cursor.execute(
-            "INSERT INTO request (userofticket, dateofticket, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-            (userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
+            "INSERT INTO request (invoicenumber, userofticket, dateofticket, title, name, address, phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (invoicenumber, userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
         connect.commit()
         return redirect(url_for('requestcontrolindex'))
 
@@ -261,6 +273,7 @@ def edit_request(id):
 @app.route('/updaterequest/<id>', methods=['POST'])
 def update_request(id):
     if request.method == 'POST':
+        invoicenumber = request.form['invoicenumber']
         userofticket = request.form['userofticket']
         dateofticket = request.form['dateofticket']
         title = request.form['title']
@@ -273,7 +286,8 @@ def update_request(id):
         cursor = connect.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("""
             UPDATE request
-            SET userofticket = %s,
+            SET invoicenumber = %s,
+                userofticket = %s,
                 dateofticket = %s,
                 title = %s,
                 name = %s,
@@ -284,7 +298,7 @@ def update_request(id):
                 status =%s
             WHERE id = %s
             """, (
-        userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status, id))
+        invoicenumber,userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status, id))
         connect.commit()
         return redirect(url_for('requestcontrolindex'))
 
