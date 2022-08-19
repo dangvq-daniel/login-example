@@ -24,12 +24,6 @@
                         <div class="card card-body" align="center">
                             <form action="{{ url_for('userrequest') }}" method="POST" autocomplete="off">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="invoicenumber" placeholder="Invoice number" required>
-                                    <tag for="invoicenumber">
-                                        <i class="fas fa-file-invoice circle-icon"></i>
-                                    </tag>
-                                </div>
-                                <div class="form-group">
                                     <input type="date" class="form-control" name="dateofticket" required>
                                     <tag for="dateofticket">
                                         <i class="fas fa-calendar circle-icon"></i>

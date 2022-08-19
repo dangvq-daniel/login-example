@@ -19,16 +19,10 @@
       <div class="card card-body" align="center">
         <form action="{{url_for('add_userrequest')}}" method="POST">
           <div class="form-group">
-            <tag for="invoicenumber">
-                <i class="fas fa-file-invoice circle-icon"></i>
-            </tag>
-            <input type="text" class="form-control" name="invoicenumber" placeholder="invoicenumber" required>
-          </div>
-          <div class="form-group">
             <tag for="userofticket">
               <i class="fas fa-id-card circle-icon"></i>
           </tag>
-            <input type="text" class="form-control" name="userofticket" placeholder="username" required >
+            <input type="text" class="form-control" name="userofticket" placeholder="username" required>
         </div>  
           <div class="form-group">
             <tag for="dateofticket">
@@ -72,6 +66,13 @@
         </tag>  
           <textarea type="textarea" rows="7" cols="30" name ="userrequest" class="form-control" placeholder="Request" required></textarea>
         </div>
+            <div>
+            <tag for="invoicenumber">
+                <i class="fas fa-file-invoice circle-icon"></i>
+            </tag>
+            <input type="text" class="form-control" name="invoicenumber" placeholder="invoicenumber">
+          </div>
+          <div class="form-group">
             <select class="box-select" name="status" placeholder="status">
                 <option>New</option>
                 <option>In Progress</option>
@@ -90,7 +91,6 @@
             <thead>
               <tr>
                   <th>id</th>
-                  <th>Invoice number</th>
                   <th>Username</th>
                   <th>Date of request</th>
                   <th>Title</th>
@@ -100,12 +100,12 @@
                   <th>Email</th>
                   <th>Request</th>
                   <th>Status</th>
+                  <th>Invoice number</th>
                   <th>Action</th>
               </tr>
             </thead>
-            
               <tbody> 
-              {% for row in list_requests %}
+              {% for row in list_requests | reverse %}
               <tr>
                   <td>{{ row[0] }}</td>
                   <td>{{ row[1] }}</td>
