@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7\xa9\xfb'
 
 # Enter your database connection details below
-DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
+"""DB_HOST = "ec2-3-224-8-189.compute-1.amazonaws.com"
 DB_NAME = "d9tmmg8f329u7q"
 DB_USER = "dgmngaedsbampl"
 DB_PASS = "c49e7707bfe4377da7b4ea48b34c2d6286238936c4e4f2c018973453b878696d"
@@ -147,7 +147,7 @@ def profile():
 # CREATE NEW USER REQUEST
 @app.route('/pythonlogin/userrequest', methods=['GET', 'POST'])
 def userrequest():
-    email_sender = 'noreply.DPBusiness@gmail.com'
+    email_sender =  'noreply.DPBusiness@gmail.com'
     email_password = 'aggctvaynqbindkd'
     email_receiver = 'economydpbusiness@gmail.com'
     # Check if user is loggedin
@@ -174,7 +174,7 @@ def userrequest():
                 "INSERT INTO request ( userofticket,dateofticket,title,name,address,phonenumber,emailofticket,userrequest,status) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s)",
                 ( userofticket, dateofticket, title, name, address, phonenumber, emailofticket, userrequest, status))
             connect.commit()
-            subject = 'New Request from' + userofticket
+            subject = 'New Request from ' + userofticket
             body = "Have new request titled " + title + " with phone number: " + phonenumber + " and email: " + emailofticket
             em = EmailMessage()
             em['From'] = email_sender
