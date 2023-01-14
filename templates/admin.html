@@ -1,0 +1,23 @@
+{% extends 'layoutadmin.html' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+
+<h2>ADMIN AREA</h2>
+<div class="box">
+    <h3>Request control</h3>
+    <p>Create,edit,delete and read user request </p>
+    <a style="color:white" href="{{ url_for('requestcontrolindex') }}" class="btn">Read More</a>
+</div>
+<div class="box">
+    <h3>User Control</h3>
+    <p>Create,edit,delete and read user</p>
+    <a style="color:white" href="{{ url_for('usercontrolindex') }}" class="btn">Read More</a>
+</div>
+<div class="box">
+    <h3>Get Tokens</h3>
+    <p>Get random tokens from database</p>
+    <a style="color:white" href="{{ url_for('gettokens') }}" class="btn">Read More</a>
+</div>
+{% endblock %}

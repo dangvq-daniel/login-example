@@ -1,0 +1,133 @@
+{% extends "requestcontrollayout.html" %}
+{% block body %}
+<div style="text-align:left"><h2>REQUEST</h2></div>
+  
+    <div align="left">
+      {% with messages = get_flashed_messages()  %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="row">
+      <div class="card card-body" align="center">
+        <form action="{{url_for('add_userrequest')}}" method="POST">
+          <div class="form-group">
+            <tag for="userofticket">
+              <i class="fas fa-id-card circle-icon"></i>
+          </tag>
+            <input type="text" class="form-control" name="userofticket" placeholder="username" required>
+        </div>  
+          <div class="form-group">
+            <tag for="dateofticket">
+              <i class="fas fa-calendar circle-icon"></i>
+          </tag>
+            <input type="date" class="form-control" name="dateofticket" required>
+        </div>
+        <div class="form-group">
+          <tag for="title">
+            <i class="fas fa-tag circle-icon"></i>
+        </tag>  
+          <input type="text" class="form-control" name="title" placeholder="Title" required>
+        </div>
+        <div class="form-group">
+          <tag for="name">
+            <i class="fas fa-user circle-icon"></i>
+        </tag>  
+          <input type="text" class="form-control" name="name" placeholder="Name" required>  
+        </div>
+        <div class="form-group">
+          <tag for="address">
+            <i class="fas fa-home circle-icon"></i>
+        </tag>
+            <input type="text" class="form-control" name="address" placeholder="Address" required>
+        </div>
+        <div class="form-group">
+          <tag for="phonenumber">
+            <i class="fas fa-phone circle-icon"></i>
+        </tag>  
+          <input type="text" class="form-control" name="phonenumber" placeholder="Phone number" required>
+        </div>
+        <div class="form-group">
+          <tag for="emailofticket">
+            <i class="fas fa-envelope circle-icon"></i>
+        </tag>  
+          <input type="email" class="form-control" name="emailofticket" placeholder="Email" required>
+        </div>
+        <div>
+          <tag for="userrequest">
+            <i class="fas fa-paper-plane circle-icon"></i>
+        </tag>  
+          <textarea type="textarea" rows="7" cols="30" name ="userrequest" class="form-control" placeholder="Request" required></textarea>
+        </div>
+            <div>
+            <tag for="invoicenumber">
+                <i class="fas fa-file-invoice circle-icon"></i>
+            </tag>
+            <input type="text" class="form-control" name="invoicenumber" placeholder="invoicenumber">
+          </div>
+          <div class="form-group">
+            <select class="box-select" name="status" placeholder="status">
+                <option>New</option>
+                <option>In Progress</option>
+                <option>Done</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-block">
+            Save 
+          </button>
+        </form>
+      </div>
+    </div>
+    </div>
+    <div >
+        <table id="example" class="responstable" style="width:auto">
+            <thead>
+              <tr>
+                  <th>id</th>
+                  <th>Username</th>
+                  <th>Date of request</th>
+                  <th>Title</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Phonenumber</th>
+                  <th>Email</th>
+                  <th>Request</th>
+                  <th>Status</th>
+                  <th>Invoice number</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+              <tbody> 
+              {% for row in list_requests | reverse %}
+              <tr>
+                  <td>{{ row[0] }}</td>
+                  <td>{{ row[1] }}</td>
+                  <td>{{ row[2] }}</td>
+                  <td>{{ row[3] }}</td>
+                  <td>{{ row[4] }}</td>
+                  <td>{{ row[5] }}</td>
+                  <td>{{ row[6] }}</td>
+                  <td>{{ row[7] }}</td>
+                  <td>View to see more</td>
+                  <td>{{ row[9] }}</td>
+                  <td>{{ row[10] }}</td>
+                  <td>
+                      <a href="/editrequest/{{row[0]}}" class="btn btn-primary">View</a>
+                      <a href="/deleterequest/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Delete</a>
+                    </td>
+                  </tr>
+              </tr>                   
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+  
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'layoutadmin.html' %}
+
+{% block title %}GET TOKENS{% endblock %}
+
+{% block content %}
+
+<h2>GET TOKENS</h2>
+<div class="gettokens">
+<div class="card card-body" align="center">
+  <div class="form-group">
+  <input type="text" value={{data[0]}} id="myInput">
+  </div>
+  <div class="form-group">
+<button class="get_tokens" onclick="myFunction()">GET</button>
+</div>
+</div>
+<script>
+  function myFunction() {
+    /* Get the text field */
+    var copyText = document.getElementById("myInput");
+  
+    /* Select the text field */
+    copyText.select();
+     /* For mobile devices */
+  
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText.value);
+    
+    /* Alert the copied text */
+    alert("Copied the text: " + copyText.value);
+  }
+  </script>
+{% endblock %}
+
