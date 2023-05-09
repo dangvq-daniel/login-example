@@ -16,15 +16,11 @@ app = Flask(__name__)
 app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7\xa9\xfb'
 
 # Enter your database connection details below
-DB_HOST = "ep-bitter-dew-232500.us-east-2.aws.neon.tech"
-DB_NAME = "neondb"
-DB_USER = "dangvq-daniel"
-DB_PASS = "2K6hEXYAzytV"
-"""
 DB_HOST = "localhost"
-DB_NAME = "account"
+DB_NAME = "name"
 DB_USER = "user"
-DB_PASS = "123456789"""
+DB_PASS = "pass"
+
 # Intialize MySQL
 # mysql = MySQL(app)
 connect = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
