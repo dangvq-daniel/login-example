@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 # Change this to your secret key (can be anything, it's for extra protection)
-app.secret_key = b'\xd3\x89\x87 \xf9Hu\xafv?\xeb\x93\xda\xfe|N<\xcc\x16\x9f^\xc7\xa9\xfb'
+app.secret_key = #input a key here, can be random
 
 # Enter your database connection details below
 DB_HOST = "localhost"
@@ -143,9 +143,9 @@ def profile():
 # CREATE NEW USER REQUEST
 @app.route('/pythonlogin/userrequest', methods=['GET', 'POST'])
 def userrequest():
-    email_sender =  'noreply.economydp@gmail.com'
-    email_password = 'hynmsqhpymxegthg'
-    email_receiver = 'economydpbusiness@gmail.com'
+    email_sender =  #input your sender email
+    email_password = #input the app password from gg
+    email_receiver = #input the receiver
     # Check if user is loggedin
     msg = ''
     if 'loggedin' in session:
