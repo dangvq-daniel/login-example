@@ -1,6 +1,6 @@
 # plumbing-application description
 
-This is an example
+This is an example repository. You can try initializing a database using the descriptions in app_database_init.txt, and try running the application
 
 Web application for a plumbing company and its main feature is to update the company in real time about the requests of customers.
 
