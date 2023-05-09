@@ -1,12 +1,31 @@
-CREATE DATABASE IF NOT EXISTS `pythonlogin` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `pythonlogin`;
+CREATE TABLE IF NOT EXISTS public.accounts
+(
+    id integer NOT NULL DEFAULT nextval('accounts_id_seq'::regclass),
+    username character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT accounts_pkey PRIMARY KEY (id)
+)
 
-CREATE TABLE IF NOT EXISTS `accounts` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-  	`username` varchar(50) NOT NULL,
-  	`password` varchar(255) NOT NULL,
-  	`email` varchar(100) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS public.request
+(
+    id integer NOT NULL DEFAULT nextval('request_id_seq'::regclass),
+    userofticket character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    dateofticket date NOT NULL,
+    title character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    address character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    phonenumber text COLLATE pg_catalog."default" NOT NULL,
+    emailofticket character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    userrequest character varying(10000) COLLATE pg_catalog."default" NOT NULL,
+    status text COLLATE pg_catalog."default" NOT NULL,
+    invoicenumber text COLLATE pg_catalog."default",
+    CONSTRAINT request_pkey PRIMARY KEY (id)
+)
 
-INSERT INTO `accounts` (`id`, `username`, `password`, `email`) VALUES (1, 'test', 'test', 'test@test.com');
+CREATE TABLE IF NOT EXISTS public.tokens
+(
+    token character varying(255) COLLATE pg_catalog."default" NOT NULL
+)
+
+TABLESPACE pg_default;
