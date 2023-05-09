@@ -1,4 +1,6 @@
-# plumbing-application
+# plumbing-application description
+
+This is an example
 
 Web application for a plumbing company and its main feature is to update the company in real time about the requests of customers.
 
